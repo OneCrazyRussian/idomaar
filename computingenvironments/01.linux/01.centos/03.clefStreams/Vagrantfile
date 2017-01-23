@@ -3,6 +3,7 @@ BOX_URI    		= ENV['BOX_URI']    		|| 'http://developer.nrel.gov/downloads/vagra
 
 DOMAIN     		= 'aot.tu-berlin.de' 				#specify DOMAIN without initial dot. e.g. "aot.tu-berlin.de"
 
+box_ip_address = '192.168.22.4'
 
 nodes = [
   { "node_id" => 1, "hostname" => 'mahout',   "ip" => '192.168.0.42', "box" => BOX_NAME, "boxurl" => BOX_URI, "ram" => 512, "role" => 'fe'}
@@ -22,6 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	      	#node_config.vm.network 'private_network', ip: node["ip"]
 			node_config.vm.network "forwarded_port", guest: 8088, host: 8088
 	      	node_config.vm.hostname = node["hostname"]
+			node_config.vm.network :private_network, ip: box_ip_address
 	      				
     		node_config.vm.provider 'virtualbox' do |v, override|
 				memory = node["ram"] ? node["ram"] : 256;
